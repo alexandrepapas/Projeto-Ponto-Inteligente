@@ -14,14 +14,14 @@ public class EmpresaController {
     @Autowired
      EmpresaService empresaService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Empresa> criarEmpresa(@RequestBody Empresa empresa){
+   @PostMapping
+   @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<?> criarEmpresa(@RequestBody Empresa empresa){
         try {
             Empresa empresaCriada = empresaService.criarEmpresa(empresa);
             return new ResponseEntity<>(empresaCriada, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Ocorreu um erro ao criar a empresa: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
