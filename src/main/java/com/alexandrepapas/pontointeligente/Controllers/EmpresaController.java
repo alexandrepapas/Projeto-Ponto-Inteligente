@@ -18,10 +18,12 @@ public class EmpresaController {
    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> criarEmpresa(@RequestBody Empresa empresa){
         try {
-            Empresa empresaCriada = empresaService.criarEmpresa(empresa);
+            Empresa empresaCriada = empresaService.criarEmpresaDto(empresa);
             return new ResponseEntity<>(empresaCriada, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("Ocorreu um erro ao criar a empresa: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 }

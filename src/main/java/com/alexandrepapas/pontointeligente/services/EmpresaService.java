@@ -14,14 +14,21 @@ public class EmpresaService {
     private EmpresaRepository empresaRepository;
 
 
-    public Empresa criarEmpresa(Empresa empresa) throws Exception {
-        if(empresaRepository.findByCnpj(empresa.getCnpj()).isPresent()){
+
+    public Empresa criarEmpresaDto(Empresa criarEmpresa) throws Exception {
+        if(empresaRepository.findByCnpj(criarEmpresa.getCnpj()).isPresent()){
             throw new ExceptionEmpresa(HttpStatus.INTERNAL_SERVER_ERROR,"Cnpj já cadastrado");
         }
+        if(criarEmpresa.getCnpj() == null || criarEmpresa.getCnpj().isEmpty()){
+            throw new ExceptionEmpresa(HttpStatus.BAD_REQUEST,"Cnpj não pode ser vazio");
+        }
+        if(criarEmpresa.getRazaoSocial() == null || criarEmpresa.getRazaoSocial().isEmpty()){
+            throw new ExceptionEmpresa(HttpStatus.BAD_REQUEST,"Razão social não pode ser vazio");
+        }
+        Empresa empresa = new Empresa();
+        empresa.setRazaoSocial(criarEmpresa.getRazaoSocial());
+        empresa.setCnpj(criarEmpresa.getCnpj());
         return empresaRepository.save(empresa);
     }
-
-
-
 
 }
