@@ -2,7 +2,7 @@
 
 Esta é uma aplicação em construção baseada em Java, desenvolvida usando o framework Spring Boot e Maven para gerenciamento de dependências. A aplicação está sendo projetada para gerenciar um sistema de ponto inteligente de uma empresa.  
 
-Recursos criados ate o momento
+Recursos criados ate o momento:
 Gerenciamento de Empresas: A aplicação permite a criação de novas empresas. Cada empresa é identificada unicamente pelo seu CNPJ. O sistema garante que não possam existir duas empresas com o mesmo CNPJ.
 
 **Tecnologias Utilizadas**
