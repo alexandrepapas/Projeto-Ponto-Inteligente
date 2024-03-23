@@ -13,8 +13,6 @@ public class EmpresaService {
     @Autowired
     private EmpresaRepository empresaRepository;
 
-
-
     public Empresa criarEmpresaDto(Empresa criarEmpresa) throws Exception {
         if(empresaRepository.findByCnpj(criarEmpresa.getCnpj()).isPresent()){
             throw new ExceptionEmpresa(HttpStatus.INTERNAL_SERVER_ERROR,"Cnpj já cadastrado");
@@ -31,4 +29,12 @@ public class EmpresaService {
         return empresaRepository.save(empresa);
     }
 
+    public Empresa buscarEmpresaId(Long id) {
+        return empresaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Empresa não encontrada"));
+    }
+
+    public boolean existsById(Long id) {
+        return empresaRepository.existsById(id);
+    }
 }
