@@ -1,11 +1,14 @@
 package com.alexandrepapas.pontointeligente.Entities;
 
 import com.alexandrepapas.pontointeligente.enuns.PerfilEnum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "funcionario")
@@ -51,6 +54,7 @@ public class Funcionario {
     private Empresa empresa;
 
     @OneToMany(mappedBy = "funcionario", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Lancamento> lancamentos;
 
     public Long getId() {

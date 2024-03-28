@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class EmpresaService {
 
@@ -29,12 +32,15 @@ public class EmpresaService {
         return empresaRepository.save(empresa);
     }
 
-    public Empresa buscarEmpresaId(Long id) {
-        return empresaRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Empresa não encontrada"));
+
+    public List<Empresa> buscarEmpresas() {
+        return empresaRepository.findAll();
     }
+
 
     public boolean existsById(Long id) {
         return empresaRepository.existsById(id);
     }
+
+
 }
