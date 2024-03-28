@@ -17,9 +17,9 @@ public class FunciarioController {
     @Autowired
     private FuncionarioService funcionarioService;
 
-    @PostMapping("/cadastrarFuncionario")
-    public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody Funcionario funcionario) {
-        Funcionario novoFuncionario = funcionarioService.cadastrarFuncionario(funcionario, PerfilEnum.ROLE_USUARIO);
+    @PostMapping("/criarFuncionario")
+    public ResponseEntity<Funcionario> criarFuncionario(@RequestBody Funcionario funcionario) {
+        Funcionario novoFuncionario = funcionarioService.criarFuncionario(funcionario, PerfilEnum.ROLE_USUARIO);
         return new ResponseEntity<>(novoFuncionario, HttpStatus.CREATED);
     }
 
@@ -34,5 +34,6 @@ public class FunciarioController {
         List<Funcionario> funcionarios = funcionarioService.buscarTodosFuncionarios();
         return new ResponseEntity<>(funcionarios, HttpStatus.OK);
     }
+
 
 }

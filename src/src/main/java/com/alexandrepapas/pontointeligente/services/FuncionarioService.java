@@ -3,7 +3,6 @@ package com.alexandrepapas.pontointeligente.services;
 import com.alexandrepapas.pontointeligente.Entities.Empresa;
 import com.alexandrepapas.pontointeligente.Entities.Funcionario;
 import com.alexandrepapas.pontointeligente.enuns.PerfilEnum;
-import com.alexandrepapas.pontointeligente.repositories.EmpresaRepository;
 import com.alexandrepapas.pontointeligente.repositories.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,14 +17,13 @@ public class FuncionarioService {
     FuncionarioRepository funcionarioRepository;
 
     @Autowired
-    EmpresaRepository empresaRepository;
+    EmpresaService empresaRepository;
 
-    @Autowired EmpresaService empresaService;
-
-    public Funcionario cadastrarFuncionario(Funcionario funcionario, PerfilEnum perfil) {
+    public Funcionario criarFuncionario(Funcionario funcionario, PerfilEnum perfil) {
 
         if (funcionario.getNome() == null || funcionario.getEmail() == null || funcionario.getSenha() == null ||
-                funcionario.getCpf() == null || funcionario.getPerfil() == null || funcionario.getEmpresa() == null) {
+                funcionario.getCpf() == null || funcionario.getPerfil() == null || funcionario.getDataCriacao() == null ||
+                funcionario.getDataAtualizacao() == null || funcionario.getEmpresa() == null) {
             throw new IllegalArgumentException("Todos os campos devem ser preenchidos");
         }
 
@@ -33,14 +31,11 @@ public class FuncionarioService {
             throw new IllegalArgumentException("Funcionário já cadastrado, verifique o CPF");
         }
 
-        if(funcionarioRepository.findByEmail(funcionario.getEmail()).isPresent()){
-            throw new IllegalArgumentException("Email ja cadastrado , verifique o email ");
-        }
-
         if (!empresaRepository.existsById(funcionario.getEmpresa().getId())) {
             throw new IllegalArgumentException("Empresa não cadastrada");
         }
-        Empresa empresa = buscarEmpresaId(funcionario.getEmpresa().getId());
+        Empresa empresa = empresaRepository.buscarEmpresaId(funcionario.getEmpresa().getId());
+
         funcionario.setEmpresa(empresa);
         return funcionarioRepository.save(funcionario);
     }
@@ -51,13 +46,9 @@ public class FuncionarioService {
         Empresa empresa = funcionario.getEmpresa();
         return funcionario;
     }
+
     public List<Funcionario> buscarTodosFuncionarios() {
       List<Funcionario> funcionarios = funcionarioRepository.findAll();
       return funcionarios;
-    }
-
-    public Empresa buscarEmpresaId(Long id) {
-        return empresaRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(""));
     }
 }
