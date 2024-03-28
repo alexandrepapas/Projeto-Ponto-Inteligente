@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class FunciarioController {
+@RequestMapping("/api/funcionarios")
+public class FuncionarioController {
 
 
     @Autowired
@@ -20,6 +21,12 @@ public class FunciarioController {
     @PostMapping("/cadastrarFuncionario")
     public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody Funcionario funcionario) {
         Funcionario novoFuncionario = funcionarioService.cadastrarFuncionario(funcionario, PerfilEnum.ROLE_USUARIO);
+        return new ResponseEntity<>(novoFuncionario, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/cadastrarFuncionarioAdmin")
+    public ResponseEntity<Funcionario> cadastrarFuncionarioAdmin(@RequestBody Funcionario funcionario) {
+        Funcionario novoFuncionario = funcionarioService.cadastrarFuncionarioAdmin(funcionario, PerfilEnum.ROLE_ADMIN);
         return new ResponseEntity<>(novoFuncionario, HttpStatus.CREATED);
     }
 

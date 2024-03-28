@@ -20,12 +20,17 @@ public class FuncionarioService {
     @Autowired
     EmpresaRepository empresaRepository;
 
-    @Autowired EmpresaService empresaService;
+    @Autowired
+    EmpresaService empresaService;
 
     public Funcionario cadastrarFuncionario(Funcionario funcionario, PerfilEnum perfil) {
 
+        if (funcionario.getPerfil() == null) {
+            funcionario.setPerfil(PerfilEnum.ROLE_USUARIO);
+        }
+
         if (funcionario.getNome() == null || funcionario.getEmail() == null || funcionario.getSenha() == null ||
-                funcionario.getCpf() == null || funcionario.getPerfil() == null || funcionario.getEmpresa() == null) {
+                funcionario.getCpf() == null || funcionario.getEmpresa() == null) {
             throw new IllegalArgumentException("Todos os campos devem ser preenchidos");
         }
 
@@ -33,7 +38,34 @@ public class FuncionarioService {
             throw new IllegalArgumentException("Funcionário já cadastrado, verifique o CPF");
         }
 
-        if(funcionarioRepository.findByEmail(funcionario.getEmail()).isPresent()){
+        if (funcionarioRepository.findByEmail(funcionario.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email ja cadastrado , verifique o email ");
+        }
+
+        if (!empresaRepository.existsById(funcionario.getEmpresa().getId())) {
+            throw new IllegalArgumentException("Empresa não cadastrada");
+        }
+        Empresa empresa = buscarEmpresaId(funcionario.getEmpresa().getId());
+        funcionario.setEmpresa(empresa);
+        return funcionarioRepository.save(funcionario);
+    }
+
+    public Funcionario cadastrarFuncionarioAdmin(Funcionario funcionario, PerfilEnum perfil) {
+
+        if (funcionario.getPerfil() == null) {
+            funcionario.setPerfil(PerfilEnum.ROLE_ADMIN);
+        }
+
+        if (funcionario.getNome() == null || funcionario.getEmail() == null || funcionario.getSenha() == null ||
+                funcionario.getCpf() == null || funcionario.getEmpresa() == null) {
+            throw new IllegalArgumentException("Todos os campos devem ser preenchidos");
+        }
+
+        if (funcionarioRepository.findByCpf(funcionario.getCpf()).isPresent()) {
+            throw new IllegalArgumentException("Funcionário Admin  cadastrado, verifique o CPF");
+        }
+
+        if (funcionarioRepository.findByEmail(funcionario.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email ja cadastrado , verifique o email ");
         }
 
@@ -47,13 +79,14 @@ public class FuncionarioService {
 
     public Funcionario buscarFuncionarioPorCpf(String cpf) {
         Funcionario funcionario = funcionarioRepository.findByCpf(cpf)
-                        .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado"));
         Empresa empresa = funcionario.getEmpresa();
         return funcionario;
     }
+
     public List<Funcionario> buscarTodosFuncionarios() {
-      List<Funcionario> funcionarios = funcionarioRepository.findAll();
-      return funcionarios;
+        List<Funcionario> funcionarios = funcionarioRepository.findAll();
+        return funcionarios;
     }
 
     public Empresa buscarEmpresaId(Long id) {
