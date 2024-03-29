@@ -93,4 +93,24 @@ public class FuncionarioService {
         return empresaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(""));
     }
+
+    public void deletarFuncionario(String cpf) {
+        Funcionario funcionario = funcionarioRepository.findByCpf(cpf)
+                .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado"));
+        funcionarioRepository.deleteByCpf(cpf);
+    }
+
+    public Funcionario editarFuncionario(String cpf, String novoNome, String novoEmail, String novaSenha) {
+        Funcionario funcionario = funcionarioRepository.findByCpf(cpf)
+                .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado"));
+
+        funcionario.setNome(novoNome);
+        funcionario.setEmail(novoEmail);
+        funcionario.setSenha(novaSenha);
+
+        return funcionarioRepository.save(funcionario);
+    }
+
+
+
 }

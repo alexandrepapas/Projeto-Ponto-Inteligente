@@ -42,4 +42,15 @@ public class FuncionarioController {
         return new ResponseEntity<>(funcionarios, HttpStatus.OK);
     }
 
+    @PutMapping("/editarFuncionario/{cpf}")
+    public ResponseEntity<Funcionario> editarFuncionario(@PathVariable String cpf, @RequestBody Funcionario dadosFuncionario) {
+        Funcionario funcionarioAtualizado = funcionarioService.editarFuncionario(cpf, dadosFuncionario.getNome(), dadosFuncionario.getEmail(), dadosFuncionario.getSenha());
+        return new ResponseEntity<>(funcionarioAtualizado, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deletarFuncionario/{cpf}")
+    public ResponseEntity<String> deletarFuncionario(@PathVariable String cpf) {
+        funcionarioService.deletarFuncionario(cpf);
+        return new ResponseEntity<>("Funcionario Excluido", HttpStatus.OK);
+    }
 }
