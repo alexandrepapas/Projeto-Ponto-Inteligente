@@ -43,7 +43,7 @@ public class LancamentoService {
         lancamentos.forEach(lancamento -> {
             Funcionario funcionario = lancamento.getFuncionario();
 
-          String nomeFuncionario= funcionario.getNome();
+            String nomeFuncionario= funcionario.getNome();
           //System.out.println("nome do funciario"+nomeFuncionario);
         });
         return lancamentos;

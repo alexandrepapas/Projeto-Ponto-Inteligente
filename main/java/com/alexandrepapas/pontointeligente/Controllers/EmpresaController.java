@@ -43,4 +43,14 @@ public class EmpresaController {
             return new ResponseEntity<>("Ocorreu um erro ao editar a empresa: " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletarEmpresa(@PathVariable Long id) {
+        try {
+            empresaService.deletarEmpresa(id);
+            return new ResponseEntity<>("Empresa deletada com sucesso", HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>("Ocorreu um erro ao deletar a empresa: " + e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 }
