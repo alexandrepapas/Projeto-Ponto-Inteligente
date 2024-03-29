@@ -86,7 +86,6 @@ public class FuncionarioService {
     }
 
 
-
     public Empresa buscarEmpresaId(Long id) {
         return empresaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(""));
@@ -108,4 +107,8 @@ public class FuncionarioService {
 
         return funcionarioRepository.save(funcionario);
     }
+    public Page<Funcionario> buscarFuncionariosPaginas(Pageable pageable) {
+        return funcionarioRepository.findAll(pageable);
+    }
+
 }
