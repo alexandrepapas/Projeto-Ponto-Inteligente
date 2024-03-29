@@ -5,12 +5,13 @@ import com.alexandrepapas.pontointeligente.Entities.Funcionario;
 import com.alexandrepapas.pontointeligente.enuns.PerfilEnum;
 import com.alexandrepapas.pontointeligente.repositories.EmpresaRepository;
 import com.alexandrepapas.pontointeligente.repositories.FuncionarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public class FuncionarioService {
 
@@ -84,13 +85,33 @@ public class FuncionarioService {
         return funcionario;
     }
 
-    public List<Funcionario> buscarTodosFuncionarios() {
-        List<Funcionario> funcionarios = funcionarioRepository.findAll();
-        return funcionarios;
-    }
+
 
     public Empresa buscarEmpresaId(Long id) {
         return empresaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(""));
     }
+
+    public void deletarFuncionario(String cpf) {
+        Funcionario funcionario = funcionarioRepository.findByCpf(cpf)
+                .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado"));
+        funcionarioRepository.deleteByCpf(cpf);
+    }
+
+    public Funcionario editarFuncionario(String cpf, String novoNome, String novoEmail, String novaSenha) {
+        Funcionario funcionario = funcionarioRepository.findByCpf(cpf)
+                .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado"));
+
+        funcionario.setNome(novoNome);
+        funcionario.setEmail(novoEmail);
+        funcionario.setSenha(novaSenha);
+
+        return funcionarioRepository.save(funcionario);
+    }
+
+    public Page<Funcionario> buscarFuncionariosPaginas(Pageable pageable) {
+        return funcionarioRepository.findAll(pageable);
+    }
+
+
 }
