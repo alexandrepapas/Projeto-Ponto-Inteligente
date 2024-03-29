@@ -32,15 +32,25 @@ public class EmpresaService {
         return empresaRepository.save(empresa);
     }
 
-
     public List<Empresa> buscarEmpresas() {
         return empresaRepository.findAll();
     }
-
 
     public boolean existsById(Long id) {
         return empresaRepository.existsById(id);
     }
 
+
+    public Empresa editarEmpresa(Empresa editarEmpresa,Long id) {
+      Optional <Empresa> empresaOptional = empresaRepository.findById(id);
+      if(!empresaOptional.isPresent()) {
+          throw new IllegalArgumentException("Empresa não encontrada");
+      }
+      Empresa empresa = empresaOptional.get();
+       empresa.setCnpj(editarEmpresa.getCnpj());
+       empresa.setRazaoSocial(editarEmpresa.getRazaoSocial());
+
+       return empresaRepository.save(empresa);
+    }
 
 }

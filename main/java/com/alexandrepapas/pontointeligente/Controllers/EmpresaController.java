@@ -34,4 +34,13 @@ public class EmpresaController {
         return new ResponseEntity<>(empresas, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> editarEmpresa(@PathVariable Long id, @RequestBody Empresa empresa) {
+        try {
+            Empresa empresaEditada = empresaService.editarEmpresa(empresa, id);
+            return new ResponseEntity<>(empresaEditada, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>("Ocorreu um erro ao editar a empresa: " + e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 }
