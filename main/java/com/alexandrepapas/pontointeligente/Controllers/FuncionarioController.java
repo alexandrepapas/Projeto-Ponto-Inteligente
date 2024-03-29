@@ -59,8 +59,4 @@ public class FuncionarioController {
         return new ResponseEntity<>("Funcionario Excluido", HttpStatus.OK);
     }
 
-
-
-
-
 }

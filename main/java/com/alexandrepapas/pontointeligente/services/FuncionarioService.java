@@ -108,10 +108,4 @@ public class FuncionarioService {
 
         return funcionarioRepository.save(funcionario);
     }
-
-    public Page<Funcionario> buscarFuncionariosPaginas(Pageable pageable) {
-        return funcionarioRepository.findAll(pageable);
-    }
-
-
 }

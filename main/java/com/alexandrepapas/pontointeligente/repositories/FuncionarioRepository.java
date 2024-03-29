@@ -16,5 +16,5 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long>{
 
     Optional<Funcionario> deleteByCpf(String cpf);
 
-    Page<Funcionario> findAll(Pageable pageable);
 }
+
