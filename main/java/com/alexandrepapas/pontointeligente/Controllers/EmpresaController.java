@@ -43,7 +43,6 @@ public class EmpresaController {
             return new ResponseEntity<>("Ocorreu um erro ao editar a empresa: " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletarEmpresa(@PathVariable Long id) {
         try {

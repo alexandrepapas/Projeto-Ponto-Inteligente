@@ -35,7 +35,7 @@ public class FuncionarioController {
     }
 
     @GetMapping("/buscarFuncionarioPorCpf")
-    public  ResponseEntity <Funcionario>buscaFuncionarioPorCpf(@RequestParam String cpf) {
+    public ResponseEntity<Funcionario> buscaFuncionarioPorCpf(@RequestParam String cpf) {
         Funcionario funcionario = funcionarioService.buscarFuncionarioPorCpf(cpf);
         return new ResponseEntity<>(funcionario, HttpStatus.OK);
     }
@@ -49,7 +49,8 @@ public class FuncionarioController {
 
     @PutMapping("/editarFuncionario/{cpf}")
     public ResponseEntity<Funcionario> editarFuncionario(@PathVariable String cpf, @RequestBody Funcionario dadosFuncionario) {
-        Funcionario funcionarioAtualizado = funcionarioService.editarFuncionario(cpf, dadosFuncionario.getNome(), dadosFuncionario.getEmail(), dadosFuncionario.getSenha());
+        Funcionario funcionarioAtualizado = funcionarioService.editarFuncionario(cpf, dadosFuncionario.getNome(),
+                dadosFuncionario.getEmail(), dadosFuncionario.getSenha());
         return new ResponseEntity<>(funcionarioAtualizado, HttpStatus.OK);
     }
 
